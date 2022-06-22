@@ -4,11 +4,11 @@ parts:
   - caption : chapter 7
     chapters:
       - file: chapter7/intro
-      sections:
-        - file: chapter7/env_setting
-        - file: chapter7/API_explain
-        - file: chapter7/login
-        - file: chapter7/accnt
-        - file: chapter7/xr
-        - file: chapter7/ord
-        - file: chapter7/scheduler
+        sections:
+          - file: chapter7/env_setting
+          - file: chapter7/API_explain
+          - file: chapter7/login
+          - file: chapter7/accnt
+          - file: chapter7/xr
+          - file: chapter7/ord
+          - file: chapter7/scheduler

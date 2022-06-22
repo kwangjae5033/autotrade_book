@@ -6,7 +6,7 @@
 앱 설치 완료 후, 비대면 계좌 개설을 진행 합니다. 
 신분증 촬영과 간단한 인증절차를 밟으면 어렵지 않게 계좌 개설을 완료 할 수 있습니다.
 
-```{figure} ../images/C-3PO_droid.png
+```{figure} images/image15.png
 :width: 300px
 :height: 200px
 :name: 이베스트 온 애플리케이션
