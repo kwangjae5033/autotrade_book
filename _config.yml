@@ -1,8 +1,12 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: My sample book
+title: 자동매매를 해보자
 author: The Jupyter Book Community
+
+exclude_patterns:
+  - README.md
+  - CONTRIBUTING.md
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html

@@ -12,3 +12,26 @@ parts:
           - file: chapter7/xr
           - file: chapter7/ord
           - file: chapter7/scheduler
+          
+          
+format: jb-book
+root: landing-page
+parts:
+  - caption: Preamble
+    chapters:
+      - file: preamble/how-to-use
+  - caption: Foundational skills
+    chapters:
+      - file: foundations/overview
+      - file: foundations/why-python
+      - file: foundations/getting-started-python
+        sections:
+          - file: foundations/quickstart
+          - file: foundations/how-to-run-python
+            sections:
+              - file: foundations/terminal
+              - file: foundations/jupyter
+              - file: foundations/conda
+      - file: foundations/getting-started-jupyter
+        sections:
+        
