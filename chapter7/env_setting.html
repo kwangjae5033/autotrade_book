@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>개발환경 &#8212; My sample book</title>
+    <title>개발환경 &#8212; 자동매매를 해보자</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,6 +52,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API Event 작동 방식" href="API_explain.html" />
+    <link rel="prev" title="자동매매를 해보자" href="7.1.0_Algo_trading.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -90,7 +92,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <h1 class="site-logo" id="site-title">My sample book</h1>
+      <h1 class="site-logo" id="site-title">자동매매를 해보자</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
@@ -106,7 +108,56 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  chapter 7
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="7.1.0_Algo_trading.html">
+   자동매매를 해보자
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     개발환경
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="API_explain.html">
+     API Event 작동 방식
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="login.html">
+     자동 로그인
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="accnt.html">
+     계좌 정보 조회
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="xr.html">
+     실시간 데이터 받아오기
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ord.html">
+     자동으로 매수/매수
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
     </div>
 </nav></div>
         <div class="bd-sidebar__bottom">
@@ -351,7 +402,7 @@ title="Print to PDF"
 <figure class="align-default" id="id3">
 <a class="reference internal image-reference" href="../_images/ebeston.png"><img alt="../_images/ebeston.png" src="../_images/ebeston.png" style="width: 600px; height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-text">이베스트 온(eBest ON) 애플리케이션 설치</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">이베스트 온(eBest ON) 애플리케이션 설치</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
@@ -363,14 +414,14 @@ ID 등록을 마치면 로그인을 한 상태에서 웹 페이지 하단에 있
 <figure class="align-default" id="id4">
 <a class="reference internal image-reference" href="../_images/xingAPI_1.png"><img alt="../_images/xingAPI_1.png" src="../_images/xingAPI_1.png" style="width: 600px; height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-text">[매매시스템] → [API] 클릭</span><a class="headerlink" href="#id4" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">[매매시스템] → [API] 클릭</span><a class="headerlink" href="#id4" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>[API] 메뉴 클릭 후, Fig 3 에서 보이는 xingAPI 패키지 PC 버전을 다운 받습니다.</p>
 <figure class="align-default" id="id5">
 <a class="reference internal image-reference" href="../_images/xingAPI_2.png"><img alt="../_images/xingAPI_2.png" src="../_images/xingAPI_2.png" style="width: 600px; height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-text">xingAPI 패키지 PC 버전 설치</span><a class="headerlink" href="#id5" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">xingAPI 패키지 PC 버전 설치</span><a class="headerlink" href="#id5" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>다운로드한 설치 파일을 더블 클릭해서 설치를 시작합니다.
@@ -378,14 +429,14 @@ Fig 4 와 같이 설치 마법사 화면이 나타나면 [다음] 버튼을 클�
 <figure class="align-default" id="id6">
 <a class="reference internal image-reference" href="../_images/xingAPI_3.png"><img alt="../_images/xingAPI_3.png" src="../_images/xingAPI_3.png" style="width: 600px; height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-text">설치 마법사 화면 [다음] 클릭</span><a class="headerlink" href="#id6" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">설치 마법사 화면 [다음] 클릭</span><a class="headerlink" href="#id6" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>다음으로 기본 설치 경로를 수정하지 말고 [다음] 버튼을 클릭합니다.</p>
 <figure class="align-default" id="id7">
 <a class="reference internal image-reference" href="../_images/xingAPI_4.png"><img alt="../_images/xingAPI_4.png" src="../_images/xingAPI_4.png" style="width: 600px; height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-text">경로 수정하지 않고 [다음] 클릭</span><a class="headerlink" href="#id7" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">경로 수정하지 않고 [다음] 클릭</span><a class="headerlink" href="#id7" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>설치가 완료되면 Fig 6 과 같은 화면이 나타납니다. [완료] 버튼을 눌러 설치 과정을
@@ -393,7 +444,7 @@ Fig 4 와 같이 설치 마법사 화면이 나타나면 [다음] 버튼을 클�
 <figure class="align-default" id="id8">
 <a class="reference internal image-reference" href="../_images/xingAPI_5.png"><img alt="../_images/xingAPI_5.png" src="../_images/xingAPI_5.png" style="width: 600px; height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-text">xingAPI 패키지 설치 [완료] 클릭</span><a class="headerlink" href="#id8" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">xingAPI 패키지 설치 [완료] 클릭</span><a class="headerlink" href="#id8" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>마지막으로 Fig 7 과 같이  [매매시스템] → [API] → [사용등록/해지] 버튼을 눌러서 인증서 로그인을 진행 합니다.
@@ -402,19 +453,19 @@ Fig 9와 같이 화면이 나오면 사용자 등록이 완료됩니다.</p>
 <figure class="align-default" id="id9">
 <a class="reference internal image-reference" href="../_images/xingAPI_6.png"><img alt="../_images/xingAPI_6.png" src="../_images/xingAPI_6.png" style="width: 600px; height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-text">[매매시스템] → [API] → [사용등록/해지] 클릭</span><a class="headerlink" href="#id9" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 7 </span><span class="caption-text">[매매시스템] → [API] → [사용등록/해지] 클릭</span><a class="headerlink" href="#id9" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id10">
 <a class="reference internal image-reference" href="../_images/xingAPI_7.png"><img alt="../_images/xingAPI_7.png" src="../_images/xingAPI_7.png" style="width: 600px; height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-text">약관 동의 체크 후, [사용등록] 클릭</span><a class="headerlink" href="#id10" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 8 </span><span class="caption-text">약관 동의 체크 후, [사용등록] 클릭</span><a class="headerlink" href="#id10" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id11">
 <a class="reference internal image-reference" href="../_images/xingAPI_8.png"><img alt="../_images/xingAPI_8.png" src="../_images/xingAPI_8.png" style="width: 600px; height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-text">사용등록 완료 페이지</span><a class="headerlink" href="#id11" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 9 </span><span class="caption-text">사용등록 완료 페이지</span><a class="headerlink" href="#id11" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
@@ -425,28 +476,28 @@ Fig 9와 같이 화면이 나오면 사용자 등록이 완료됩니다.</p>
 <figure class="align-default" id="res">
 <a class="reference internal image-reference" href="../_images/Res_1.png"><img alt="../_images/Res_1.png" src="../_images/Res_1.png" style="width: 600px; height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-text">윈도우 검색창에서 DevCenter 검색 및 실행</span><a class="headerlink" href="#res" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 10 </span><span class="caption-text">윈도우 검색창에서 DevCenter 검색 및 실행</span><a class="headerlink" href="#res" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>다음으로 데이터베이스 아이콘을 클릭하여 Res 파일을 다운 받습니다.</p>
 <figure class="align-default" id="id12">
 <a class="reference internal image-reference" href="../_images/Res_2.png"><img alt="../_images/Res_2.png" src="../_images/Res_2.png" style="width: 600px; height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-text">[아이콘] 클릭</span><a class="headerlink" href="#id12" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 11 </span><span class="caption-text">[아이콘] 클릭</span><a class="headerlink" href="#id12" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>다운로드 팝업이 뜨면 예(Y) 버튼을 클릭합니다.</p>
 <figure class="align-default" id="id13">
 <a class="reference internal image-reference" href="../_images/Res_3.png"><img alt="../_images/Res_3.png" src="../_images/Res_3.png" style="width: 600px; height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-text">Res 파일 다운로드 팝업 창 예(Y) 클릭</span><a class="headerlink" href="#id13" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 12 </span><span class="caption-text">Res 파일 다운로드 팝업 창 예(Y) 클릭</span><a class="headerlink" href="#id13" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>완료 팝업이 뜨면 [확인] 버튼을 클릭하여 Res 파일 다운로드를 완료 합니다.</p>
 <figure class="align-default" id="id14">
 <a class="reference internal image-reference" href="../_images/Res_4.png"><img alt="../_images/Res_4.png" src="../_images/Res_4.png" style="width: 600px; height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-text">완료 팝업에서 [확인] 클릭</span><a class="headerlink" href="#id14" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 13 </span><span class="caption-text">완료 팝업에서 [확인] 클릭</span><a class="headerlink" href="#id14" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
@@ -479,6 +530,20 @@ Fig 9와 같이 화면이 나오면 사용자 등록이 완료됩니다.</p>
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="7.1.0_Algo_trading.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">자동매매를 해보자</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="API_explain.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API Event 작동 방식</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             </footer>
         </div>
