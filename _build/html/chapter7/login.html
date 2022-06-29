@@ -207,6 +207,35 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/chapter7/login.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -274,7 +303,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/chapter7/login.md"
+        <a href="../_sources/chapter7/login.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -285,7 +314,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.md</span>
+<span class="headerbtn__text-container">.ipynb</span>
 </a>
 
       </li>
@@ -335,8 +364,95 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+  <section id="id1">
 <h1>자동 로그인<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h1>
+<p>서버 연결 및 로그인을 수행하려면 XASession 이라는 이름의 COM 클래스에 대한 객체를 선언하고 해당 객체가 제공하는 메서드를 호출해야 합니다. 아래는 서버연결 및 로그인을 차례대로 수행하는 코드입니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 앞으로 사용하게 될 변수들을 모아 놓는다.</span>
+<span class="k">class</span> <span class="nc">MyObjects</span><span class="p">:</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span> <span class="c1">#&lt; hts:실투자, demo: 모의투자</span>
+    <span class="n">login_ok</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1">#&lt;</span>
+
+    
+<span class="c1"># 실행용 클래스</span>
+<span class="k">class</span> <span class="nc">Main</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;자동 로그인을 시도합니다&quot;</span><span class="p">)</span>
+
+        <span class="n">session</span> <span class="o">=</span> <span class="n">win32com</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">DispatchWithEvents</span><span class="p">(</span><span class="s2">&quot;XA_Session.XASession&quot;</span><span class="p">,</span> <span class="n">XS_event_handler</span><span class="p">)</span> <span class="c1">#&lt;</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">ConnectServer</span><span class="p">(</span><span class="n">MyObjects</span><span class="o">.</span><span class="n">server</span> <span class="o">+</span> <span class="s2">&quot;.ebestsec.co.kr&quot;</span><span class="p">,</span> <span class="mi">20001</span><span class="p">)</span> <span class="c1"># 서버 연결</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">Login</span><span class="p">(</span><span class="n">아이디</span><span class="p">,</span> <span class="n">비밀번호</span><span class="p">,</span> <span class="n">공인인증</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># 로그인 정보 입력</span>
+
+        <span class="k">while</span> <span class="n">MyObjects</span><span class="o">.</span><span class="n">login_ok</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span> <span class="c1"># 로그인 결과를 기다리는 루프</span>
+            <span class="n">pythoncom</span><span class="o">.</span><span class="n">PumpWaitingMessages</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p>위 코드에서 MyObjects.server 와 MyObjects.login_ok 는 MyObjects 클래스에서 정의된 변수들입니다. 모의투자 서버에서 API 사용법을 익히기 위해 MyObjects.server 변수의 값은 ‘demo’ 로 저장했으나, 실서버 사용을 원할 경우엔 ‘server’ 로 저장하면 됩니다. 한편, 로그인 결과를 알기위해 MyObjects.login_ok 변수의 기본 값은 ‘False’로 저장하였고, 로그인 결과 메시지를 받으면 ‘True’ 로 변경하여 위 코드의 while 문을 빠져 나옵니다.</p>
+<p>다음은 로그인 결과 메시지를 받기 위한 XS_event_handler 클래스 입니다. 로그인에 성공하면 증권서버는 szCode 변수에 “0000” 값을 반환합니다. 로그인에 성공하였으므로 MyObjects.login_ok 의 값을 ‘True’ 로 변환 합니다. 반면, 로그인이 실패 시, ‘False’ 값을 유지 합니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 서버접속 및 로그인 요청 이후 수신결과 데이터를 다루는 구간</span>
+<span class="k">class</span> <span class="nc">XS_event_handler</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">OnLogin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">szCode</span><span class="p">,</span> <span class="n">szMsg</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">szCode</span><span class="p">,</span> <span class="n">szMsg</span><span class="p">),</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">szCode</span> <span class="o">==</span> <span class="s2">&quot;0000&quot;</span><span class="p">:</span> <span class="c1"># 로그인 성공</span>
+            <span class="n">MyObjects</span><span class="o">.</span><span class="n">login_ok</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># 로그인 실패</span>
+            <span class="n">MyObjects</span><span class="o">.</span><span class="n">login_ok</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>마지막으로 모의투자 서버 접속 시, 공동인증이 필요 없습니다. 아래 전체 코드를 싫행 시키고 로그인 결과를 확인 합니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">win32com.client</span> <span class="c1">#&lt;</span>
+<span class="kn">import</span> <span class="nn">pythoncom</span> <span class="c1">#&lt;</span>
+
+<span class="c1"># 앞으로 사용하게 될 변수들을 모아 놓는다.</span>
+<span class="k">class</span> <span class="nc">MyObjects</span><span class="p">:</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span> <span class="c1">#&lt; hts:실투자, demo: 모의투자</span>
+    <span class="n">login_ok</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1">#&lt;</span>
+
+
+<span class="c1"># 서버접속 및 로그인 요청 이후 수신결과 데이터를 다루는 구간</span>
+<span class="k">class</span> <span class="nc">XS_event_handler</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">OnLogin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">szCode</span><span class="p">,</span> <span class="n">szMsg</span><span class="p">):</span> 
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">szCode</span><span class="p">,</span> <span class="n">szMsg</span><span class="p">),</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+        <span class="k">if</span> <span class="n">szCode</span> <span class="o">==</span> <span class="s2">&quot;0000&quot;</span><span class="p">:</span> 
+            <span class="n">MyObjects</span><span class="o">.</span><span class="n">login_ok</span> <span class="o">=</span> <span class="kc">True</span> 
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">MyObjects</span><span class="o">.</span><span class="n">login_ok</span> <span class="o">=</span> <span class="kc">False</span> 
+
+<span class="c1"># 실행용 클래스</span>
+<span class="k">class</span> <span class="nc">Main</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;자동 로그인을 시도합니다&quot;</span><span class="p">)</span>
+
+        <span class="n">session</span> <span class="o">=</span> <span class="n">win32com</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">DispatchWithEvents</span><span class="p">(</span><span class="s2">&quot;XA_Session.XASession&quot;</span><span class="p">,</span> <span class="n">XS_event_handler</span><span class="p">)</span> <span class="c1">#&lt;</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">ConnectServer</span><span class="p">(</span><span class="n">MyObjects</span><span class="o">.</span><span class="n">server</span> <span class="o">+</span> <span class="s2">&quot;.ebestsec.co.kr&quot;</span><span class="p">,</span> <span class="mi">20001</span><span class="p">)</span> <span class="c1">#&lt; 서버 연결</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">Login</span><span class="p">(</span><span class="n">아이디</span><span class="p">,</span> <span class="n">비밀번호</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1">#&lt; 서버 연결</span>
+
+        <span class="k">while</span> <span class="n">MyObjects</span><span class="o">.</span><span class="n">login_ok</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span> <span class="c1">#&lt;</span>
+            <span class="n">pythoncom</span><span class="o">.</span><span class="n">PumpWaitingMessages</span><span class="p">()</span> <span class="c1">#&lt;</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">Main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>자동 로그인을 시도합니다
+0000 로그인 성공
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 
     <script type="text/x-thebe-config">
