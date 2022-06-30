@@ -366,81 +366,92 @@ title="Print to PDF"
                 
   <section id="id1">
 <h1>계좌 정보 조회<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h1>
-<p>XAQuery 클래스를 사용하면 게좌 잔고 내역을 조회 할 수 있습니다. XAQuery는 크게 총 세 단계로 나눌 수 있습니다. <br></p>
+<p>계좌 정보 조회는 매수 가능한 잔액, 매도 가능한 종목별 수량 등을 확인 할 수 있는 유용한 정보를 제공합니다. 다음과 같은 순서로 코드를 살펴 보겠습니다.</p>
 <ol>
-  <li>XQuery 클래스 객체 선언 및 Res 파일 등록</li>
-  <li>해당 XQuery 입력 변수 설정 및 요청</li>
-  <li>XQuery 요청 데이터 수신</li>
-</ol><p>첫 단계는 XQuery 클래스 객체를 선언하고 계좌 잔고 조회용 Res 파일을 등록합니다. DevCenter의 TR 목록에서 “주식잔고2”를 통해 계좌 정보를 조회 할 수 있으므로 t0424.res 파일을 등록해 줍니다.</p>
-<div class="cell docutils container">
+  <li>변수를 관리하는 MyObjects 클래스</li>
+  <li>데이터를 요청하는 Main 클래스</li>
+  <li>데이터를 수신하는 XQ_event_handler 클래스</li>
+</ol><div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># XQuery 클래스 객체 선언 및 계좌 잔고 조회 Res 파일 등록</span>
-
-<span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span> <span class="o">=</span> <span class="n">win32com</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">DispatchWithEvents</span><span class="p">(</span><span class="s2">&quot;XA_DataSet.XAQuery&quot;</span><span class="p">,</span> <span class="n">XQ_event_handler</span><span class="p">)</span>
-<span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">ResFileName</span> <span class="o">=</span> <span class="s2">&quot;C:/eBEST/xingAPI/Res/t0424.res&quot;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>두 번째 단계에서는 먼저 해당 XQuery의 입력 변수를 SetFieldData() 함수를 통해 설정합니다. 그 다음으로 요청 함수 t0424_request() 를 호출합니다.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># MyObjects 클래스에 새로 추가된 변수: acc_num, acc_pw, t0424_dict, t0424_request </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. MyObjects: 변수관리 클래스 </span>
 
 <span class="k">class</span> <span class="nc">MyObjects</span><span class="p">:</span>
     <span class="n">server</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span> <span class="c1"># hts:실투자, demo: 모의투자</span>
     <span class="n">tr_ok</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># TR요청</span>
-    <span class="n">acc_num</span> <span class="o">=</span> <span class="n">계좌번호</span> <span class="c1">#&lt; 계좌번호</span>
-    <span class="n">acc_pw</span> <span class="o">=</span> <span class="n">계좌비밀번호</span> <span class="c1">#&lt; 계좌비밀번호</span>
+    <span class="n">acc_num</span> <span class="o">=</span> <span class="n">계좌번호</span> <span class="c1"># 계좌번호</span>
+    <span class="n">acc_pw</span> <span class="o">=</span> <span class="n">계좌비밀번호</span> <span class="c1"># 계좌비밀번호</span>
 
     <span class="n">t0424_dict</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1">#&lt; 잔고내역2 종목들 모아 놓은 딕셔너리</span>
 
     <span class="c1">####### 요청 함수 모음</span>
     <span class="n">tr_event</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># TR요청에 대한 API 정보</span>
-
     <span class="n">t0424_request</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1">#&lt; 잔고내역2 조회 요청함수</span>
     <span class="c1">##################</span>
-
-
-<span class="c1"># 해당 XQuery 입력 변수 설정</span>
-
-<span class="k">def</span> <span class="nf">t0424_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cts_expcode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">next</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span> 
-
-    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span> 
-
-    <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;t0424InBlock&quot;</span><span class="p">,</span> <span class="s2">&quot;accno&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MyObjects</span><span class="o">.</span><span class="n">acc_num</span><span class="p">)</span> <span class="c1"># 계좌번호</span>
-    <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;t0424InBlock&quot;</span><span class="p">,</span> <span class="s2">&quot;passwd&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MyObjects</span><span class="o">.</span><span class="n">acc_pw</span><span class="p">)</span> <span class="c1"># 계좌 비밀번호</span>
-    <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;t0424InBlock&quot;</span><span class="p">,</span> <span class="s2">&quot;prcgb&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="c1"># 단가구분; 1:평균단가, 2:BEP단가</span>
-    <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;t0424InBlock&quot;</span><span class="p">,</span> <span class="s2">&quot;chegb&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">)</span> <span class="c1"># 체결구분; 0:결제기준잔고. 2:체결기준(잔고가 0이 아닌 종목만 조회)</span>
-    <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;t0424InBlock&quot;</span><span class="p">,</span> <span class="s2">&quot;dangb&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span> <span class="c1"># 단일가구분; 0:정규장, 1:시간외단일가</span>
-    <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;t0424InBlock&quot;</span><span class="p">,</span> <span class="s2">&quot;charge&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="c1"># 제비용포함여부; 0:제비용미포함, 1:제비용포함</span>
-    <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;t0424InBlock&quot;</span><span class="p">,</span> <span class="s2">&quot;cts_expcode&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cts_expcode</span><span class="p">)</span> <span class="c1"># 처음조회시는 Space, 연속조회시에 이전 조회한 OutBlock의 cts_expcode 값으로 설정</span>
-
-    <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="nb">next</span><span class="p">)</span> 
-
-    <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_ok</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">while</span> <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_ok</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span> 
-        <span class="n">pythoncom</span><span class="o">.</span><span class="n">PumpWaitingMessages</span><span class="p">()</span>
-
-
-<span class="c1"># 요청 함수 호출</span>
-
-<span class="n">MyObjects</span><span class="o">.</span><span class="n">t0424_request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t0424_request</span>
-<span class="n">MyObjects</span><span class="o">.</span><span class="n">t0424_request</span><span class="p">(</span><span class="n">cts_expcode</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">next</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>마지막 세 번째 단계에서는 XQuery 로 요청한 데이터를 수신하는 클래스를 생성 합니다. ‘code’ 변수를 통해 요청했던 데이터를 구분하고 GetFieldData() 함수를 통해 계좌 정보를 조회 할 수 있습니다. .</p>
+<p>MyObjects 클래스에서 추가된 변수는 2개 입니다.</p>
+<ol>
+  <li>"t0424_dict": 잔고내역 저장 딕셔너리 변수 </li>
+  <li>"t0424_request": 잔고내역 조회 요청함수</li>
+</ol>
+"t0424_dict" 딕셔너리는 계좌의 잔고내역을 저장 할 변수이고, "t0424_request" 는 잔고내역 조회를 요청하는 함수 입니다.<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2. Main: 데이터 요청 클래스</span>
+
+<span class="k">class</span> <span class="nc">Main</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;실행용 클래스이다&quot;</span><span class="p">)</span>
+
+        <span class="c1"># ... 코드 생략 ...</span>
+        
+        <span class="c1">#&lt;&lt;&lt;&lt;&lt;</span>
+        
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span> <span class="o">=</span> <span class="n">win32com</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">DispatchWithEvents</span><span class="p">(</span><span class="s2">&quot;XA_DataSet.XAQuery&quot;</span><span class="p">,</span> <span class="n">XQ_event_handler</span><span class="p">)</span>
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">ResFileName</span> <span class="o">=</span> <span class="s2">&quot;C:/eBEST/xingAPI/Res/t0424.res&quot;</span>
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">t0424_request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t0424_request</span>
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">t0424_request</span><span class="p">(</span><span class="n">cts_expcode</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">next</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        
+        <span class="c1">#&lt;&lt;&lt;&lt;&lt;</span>
+    
+    <span class="c1">#&lt;&lt;&lt;&lt;&lt;    </span>
+    
+    <span class="k">def</span> <span class="nf">t0424_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cts_expcode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">next</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span> <span class="c1">#&lt;</span>
+
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span> <span class="c1">#&lt;</span>
+
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;t0424InBlock&quot;</span><span class="p">,</span> <span class="s2">&quot;accno&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MyObjects</span><span class="o">.</span><span class="n">acc_num</span><span class="p">)</span> 
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;t0424InBlock&quot;</span><span class="p">,</span> <span class="s2">&quot;passwd&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MyObjects</span><span class="o">.</span><span class="n">acc_pw</span><span class="p">)</span> 
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;t0424InBlock&quot;</span><span class="p">,</span> <span class="s2">&quot;prcgb&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">)</span> 
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;t0424InBlock&quot;</span><span class="p">,</span> <span class="s2">&quot;chegb&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">)</span> 
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;t0424InBlock&quot;</span><span class="p">,</span> <span class="s2">&quot;dangb&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span> 
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;t0424InBlock&quot;</span><span class="p">,</span> <span class="s2">&quot;charge&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">)</span> 
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;t0424InBlock&quot;</span><span class="p">,</span> <span class="s2">&quot;cts_expcode&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cts_expcode</span><span class="p">)</span> 
+
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_event</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="nb">next</span><span class="p">)</span> 
+
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_ok</span> <span class="o">=</span> <span class="kc">False</span> 
+        <span class="k">while</span> <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_ok</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span> 
+            <span class="n">pythoncom</span><span class="o">.</span><span class="n">PumpWaitingMessages</span><span class="p">()</span> 
+    
+    <span class="c1">#&lt;&lt;&lt;&lt;&lt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Main 클래스에서는 계좌 정보 조회 결과를 수신 할 XQ_event_handler 클래스를 등록하고, TR목록에서 [잔고내역2]에 해당하는 “t0424” Res 파일을 등록합니다. 이어서, 요청함수를 MyObjects 에서 새로 생성한 t0424_request() 요청함수에 저장하고 함수를 호출합니다. 요청함수 정의에서는 SetFieldData() 함수를 통해 입력 변수를 입력하고 while 문을 통해 조회 결과를 기다립니다.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TR 요청 이후 수신결과 데이터를 다루는 구간</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3. XQ_event_handler: 데이터 수신 클래스</span>
 
 <span class="k">class</span> <span class="nc">XQ_event_handler</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="nf">OnReceiveData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> 수신&quot;</span> <span class="o">%</span> <span class="n">code</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
+        
+        <span class="c1">#&lt;&lt;&lt;&lt;&lt;</span>
+        
         <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;t0424&quot;</span><span class="p">:</span> 
 
             <span class="n">cts_expcode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetFieldData</span><span class="p">(</span><span class="s2">&quot;t0424OutBlock&quot;</span><span class="p">,</span> <span class="s2">&quot;cts_expcode&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> 
@@ -467,13 +478,16 @@ title="Print to PDF"
                 <span class="n">MyObjects</span><span class="o">.</span><span class="n">t0424_request</span><span class="p">(</span><span class="n">cts_expcode</span><span class="o">=</span><span class="n">cts_expcode</span><span class="p">,</span> <span class="nb">next</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">IsNext</span><span class="p">)</span> 
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">IsNext</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span> 
                 <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_ok</span> <span class="o">=</span> <span class="kc">True</span> 
-
+        
+        <span class="c1">#&lt;&lt;&lt;&lt;&lt;</span>
+    
     <span class="k">def</span> <span class="nf">OnReceiveMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">systemError</span><span class="p">,</span> <span class="n">messageCode</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;systemError: </span><span class="si">%s</span><span class="s2">, messageCode: </span><span class="si">%s</span><span class="s2">, message: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">systemError</span><span class="p">,</span> <span class="n">messageCode</span><span class="p">,</span> <span class="n">message</span><span class="p">),</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>데이터를 요청하는 Main 클래스에서 조회 결과 수신 클래스로 XQ_event_handler 를 등록했었습니다. 따라서, 증권서버에서 요청에 응답하면 XQ_event_handler 클래스의 OnReceiveData() 함수에서 “t0424” 에 대한 결과를 확인 할 수 있습니다. “code” 변수를 통해 요청했던 데이터를 구분하고 GetFieldData() 함수를 통해 계좌 정보를 변수에 저장 및 조회를 할 수 있게 됩니다.</p>
 <p>아래 전체 코드를 실행하고 계좌 정보 조회 결과를 확인 합니다.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">

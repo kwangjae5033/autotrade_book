@@ -8,14 +8,20 @@
 #   <li>[K3_] KOSDAQ 체결</li>
 #   <li>[HA_] KOSDAQ 호가잔량</li>
 # </ol>
+# 앞 절과 마찬가지로 다음과 같은 순서로 각각의 코드를 살펴 보겠습니다. 
+# <ol>
+#   <li>변수를 관리하는 MyObjects 클래스</li>
+#   <li>데이터를 요청하는 Main 클래스</li>
+#   <li>데이터를 수신하는 XQ_event_handler 클래스</li>
+# </ol>
 
 # ### 1. [K3_] KOSDAQ 체결
-# KOSDAQ체결 데이터는 매수/매도 주문을 넣을 때 꼭 필요한 실시간 데이터 입니다. 변수를 관리하는 MyObjects 클래스, 데이터를 요청하는 Main 클래스 그리고 데이터를 수신하는 XR_event_handler 클래스 순서대로 코드를 살펴 보겠습니다.
+# KOSDAQ체결 데이터는 매수/매도 주문을 넣을 때 꼭 필요한 실시간 데이터 입니다. 1. 변수를 관리하는 MyObjects 클래스, 2. 데이터를 요청하는 Main 클래스 그리고 3. 데이터를 수신하는 XR_event_handler 클래스 순서대로 코드를 살펴 보겠습니다.
 
 # In[ ]:
 
 
-# MyObjects: 변수관리 클래스 
+# 1. MyObjects: 변수관리 클래스 
 
 class MyObjects:
     server = "demo" # hts:실투자, demo: 모의투자
@@ -44,14 +50,30 @@ class MyObjects:
 # In[ ]:
 
 
-# Main: 실행용 클래스
+# 2. Main: 실행용 클래스
 
-MyObjects.real_event = win32com.client.DispatchWithEvents("XA_DataSet.XAReal", XR_event_handler)
-MyObjects.real_event.ResFileName = "C:/eBEST/xingAPI/Res/K3_.res"
-for shcode in code_list:
-    print("체결정보 종목 등록 %s" % shcode)
-    MyObjects.real_event.SetFieldData("InBlock", "shcode", shcode)
-    MyObjects.real_event.AdviseRealData()
+class Main:
+    def __init__(self):
+        print("실행용 클래스이다")
+
+        # ... 코드 생략 ...
+        
+        #<<<<<
+        
+        MyObjects.real_event = win32com.client.DispatchWithEvents("XA_DataSet.XAReal", XR_event_handler)
+        MyObjects.real_event.ResFileName = "C:/eBEST/xingAPI/Res/K3_.res"
+        for shcode in MyObjects.code_list:
+            print("체결정보 종목 등록 %s" % shcode)
+            MyObjects.real_event.SetFieldData("InBlock", "shcode", shcode)
+            MyObjects.real_event.AdviseRealData()
+    
+        #<<<<<
+        
+        while MyObjects.real_ok is False:
+            pythoncom.PumpWaitingMessages()
+
+        
+    # ... 코드 생략 ...
 
 
 # Main 클래스에서는 실시간 데이터를 수신 할 XR_event_handler 클래스를 등록하고, KOSDAQ 체결 데이터를 조회 할 "K3_" Res 파일을 등록합니다. 이어서, 조회하고 싶은 추천종목 코드를 모아 놓은 리스트 변수가 "code_list" 입니다. SetFieldData() 함수에 입력 변수 값으로 추천종목 코드를 넣고, 체결이 이루어질 때 마다 데이터 수신이 이루어지도록 AdviseRealData() 함수를 호출합니다. 
@@ -59,7 +81,7 @@ for shcode in code_list:
 # In[ ]:
 
 
-# XR_event_handler: 실시간 데이터 수신 클래스
+# 3. XR_event_handler: 실시간 데이터 수신 클래스
 
 class XR_event_handler:
 
@@ -84,9 +106,11 @@ class XR_event_handler:
             tt["누적거래량"] = int(self.GetFieldData("OutBlock", "volume"))
             tt["매도호가"]= int(self.GetFieldData("OutBlock", "offerho"))
             tt["매수호가"] = int(self.GetFieldData("OutBlock", "bidho"))
+        
+        #<<<<<
 
 
-# 요청한 추천종목 코드의 체결이 이루어질 때마다, OnReceiveRealData() 함수의 매개변수 "code"에 "K3_" 값이 들어 옵니다. 체결된 종목의 코드를 "shcode" 변수에 저장하고 해당 종목이 "K3_dict" 딕셔너리에 없었던 종목이라면 새로운 Key 값으로 저장 합니다. 그 Key 값의 Value 는 GetFieldData() 함수로 수신한 데이터를 저장합니다. 
+# 데이터를 요청하는 Main 클래스에서 조회 결과 수신 클래스로 XR_event_handler 를 등록했었습니다. 따라서, 증권서버에서 요청에 응답하면 XR_event_handler 클래스의 OnReceiveRealData() 함수에서 "K3_" 에 대한 결과를 확인 할 수 있습니다. "code" 변수를 통해 요청했던 데이터를 구분하고 GetFieldData() 함수를 통해 실시간 체결 데이터를 조회 할 수 있게 됩니다.
 
 # ### 2. [HA_] KOSDAQ 호가잔량
 # KOSDAQ 호가 및 호가잔량 데이터도 매수/매도 주문을 넣을 때 꼭 필요한 실시간 데이터 입니다. 마찬가지로 변수를 관리하는 MyObjects 클래스, 데이터를 요청하는 Main 클래스 그리고 데이터를 수신하는 XR_event_handler 클래스 순서대로 코드를 살펴 보겠습니다. 
@@ -94,7 +118,7 @@ class XR_event_handler:
 # In[ ]:
 
 
-# MyObjects: 변수관리 클래스 
+# 1. MyObjects: 변수관리 클래스 
 
 class MyObjects:
     server = "demo" # hts:실투자, demo: 모의투자
@@ -125,12 +149,30 @@ class MyObjects:
 # In[ ]:
 
 
-MyObjects.real_event_ha = win32com.client.DispatchWithEvents("XA_DataSet.XAReal", XR_event_handler)
-MyObjects.real_event_ha.ResFileName = "C:/eBEST/xingAPI/Res/HA_.res"
-for shcode in code_list:
-    print("호가잔량 종목 등록 %s" % shcode)
-    MyObjects.real_event_ha.SetFieldData("InBlock", "shcode", shcode)
-    MyObjects.real_event_ha.AdviseRealData()
+# 2. Main: 실행용 클래스
+
+class Main:
+    def __init__(self):
+        print("실행용 클래스이다")
+
+        # ... 코드 생략 ...
+        
+        #<<<<<
+        
+        MyObjects.real_event_ha = win32com.client.DispatchWithEvents("XA_DataSet.XAReal", XR_event_handler)
+        MyObjects.real_event_ha.ResFileName = "C:/eBEST/xingAPI/Res/HA_.res"
+        for shcode in MyObjects.code_list:
+            print("호가잔량 종목 등록 %s" % shcode)
+            MyObjects.real_event_ha.SetFieldData("InBlock", "shcode", shcode)
+            MyObjects.real_event_ha.AdviseRealData()
+    
+        #<<<<<
+        
+        while MyObjects.real_ok is False:
+            pythoncom.PumpWaitingMessages()
+
+        
+    # ... 코드 생략 ...
 
 
 # Main 클래스에서는 실시간 데이터를 수신 할 XR_event_handler 클래스를 등록하고, KOSDAQ 체결 데이터를 조회 할  "HA_" Res 파일을 등록합니다. 이어서, 조회하고 싶은 추천종목 코드를 모아 놓은 리스트 변수가 "code_list" 입니다. SetFieldData() 함수에 입력 변수 값으로 추천종목 코드를 넣고, 호가 정보가 바뀔 때마다 데이터 수신이 이루어지도록 AdviseRealData() 함수를 호출합니다. 
@@ -138,32 +180,15 @@ for shcode in code_list:
 # In[ ]:
 
 
-# XR_event_handler: 실시간 데이터 수신 클래스
+# 3. XR_event_handler: 실시간 데이터 수신 클래스
 
 class XR_event_handler:
 
     def OnReceiveRealData(self, code):
         
-        #<<<<<
+        # ... 코드 생략 ...
         
-        if code == "K3_":
-
-            shcode = self.GetFieldData("OutBlock", "shcode")
-
-            if shcode not in MyObjects.K3_dict.keys():
-                MyObjects.K3_dict[shcode] = {}
-
-            tt = MyObjects.K3_dict[shcode]
-            tt["체결시간"] = self.GetFieldData("OutBlock", "chetime")
-            tt["등락율"] = float(self.GetFieldData("OutBlock", "drate"))
-            tt["현재가"] = int(self.GetFieldData("OutBlock", "price"))
-            tt["시가"] = int(self.GetFieldData("OutBlock", "open"))
-            tt["고가"] = int(self.GetFieldData("OutBlock", "high"))
-            tt["저가"] = int(self.GetFieldData("OutBlock", "low"))
-            tt["누적거래량"] = int(self.GetFieldData("OutBlock", "volume"))
-            tt["매도호가"]= int(self.GetFieldData("OutBlock", "offerho"))
-            tt["매수호가"] = int(self.GetFieldData("OutBlock", "bidho"))
-
+        #<<<<<
         
         elif code == "HA_":
         
@@ -181,7 +206,7 @@ class XR_event_handler:
             tt["매도호가2"] = int(self.GetFieldData("OutBlock", "offerho2"))
 
 
-# 요청한 추천종목 코드의 호가 정보가 바뀔 때마다, OnReceiveRealData() 함수의 매개변수 "code"에 "HA_" 값이 들어 옵니다. 체결된 종목의 코드를 "shcode" 변수에 저장하고 해당 종목이 "K3_dict" 딕셔너리에 없었던 종목이라면 새로운 Key 값으로 저장 합니다. 그 Key 값의 Value 는 GetFieldData() 함수로 수신한 데이터를 저장합니다. 
+# 데이터를 요청하는 Main 클래스에서 조회 결과 수신 클래스로 XR_event_handler 를 등록했었습니다. 따라서, 증권서버에서 요청에 응답하면 XR_event_handler 클래스의 OnReceiveRealData() 함수에서 "HA_" 에 대한 결과를 확인 할 수 있습니다. "code" 변수를 통해 요청했던 데이터를 구분하고 GetFieldData() 함수를 통해 실시간 체결 데이터를 조회 할 수 있게 됩니다. 체결된 종목의 코드를 "shcode" 변수에 저장하고 해당 종목이 "HA_dict" 딕셔너리에 없었던 종목이라면 새로운 Key 값으로 저장 합니다. "HA_dict" 의 Value 값에는 GetFieldData() 함수로 수신한 데이터를 저장합니다.
 
 # 아래 전체 코드를 실행 시키고 체결 및 호가 요청 결과를 확인 합니다. 
 
