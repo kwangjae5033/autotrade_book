@@ -3,12 +3,23 @@
 
 # ## 자동으로 주문넣기
 
-# 이번 절에는 매수와 매도 주문을 넣는 방법에 대해서 살펴 보겠습니다. 매수와 매도 모두 같은 요청 함수를 사용 합니다. 주문 요청 함수의 매개변수를 통해서 매수/매도를 구분하게 됩니다. 앞 절과 마찬가지로 1. 변수를 관리하는 MyObjects 클래스, 2. 데이터를 요청하는 Main 클래스 그리고 3. 데이터를 수신하는 XR_event_handler 클래스 순서로 코드를 살펴 보겠습니다.
+# 이번 절에는 매수와 매도 주문을 넣는 방법에 대해서 살펴 보겠습니다. 매수와 매도 모두 같은 요청 함수를 사용 합니다. 주문 요청 함수의 매개변수를 통해서 매수/매도를 구분하게 됩니다. 앞 절과 마찬가지로 다음과 같은 순서로 코드를 살펴 보겠습니다.
+# <ol>
+#   <li>변수를 관리하는 MyObjects 클래스</li>
+#   <li>데이터를 요청하는 Main 클래스</li>
+#   <li>데이터를 수신하는 XQ_event_handler 클래스</li>
+# </ol>
+
+# MyObjects 클래스에서 추가된 변수는 1개 입니다.
+# <ol>
+#   <li>요청 함수 저장 변수 "CSPAT00600_request"</li>
+# </ol>
+# "CSPAT00600_request" 는 신규 주문 요청 함수 입니다.
 
 # In[ ]:
 
 
-# MyObjects: 변수관리 클래스 
+# 1. MyObjects: 변수관리 클래스 
 
 class MyObjects:
     server = "demo" # hts:실투자, demo: 모의투자
@@ -33,18 +44,33 @@ class MyObjects:
     ##################
 
 
-# MyObjects 클래스에서 추가된 변수는 1개 입니다.
-# <ol>
-#   <li>요청 함수 저장 변수 "CSPAT00600_request"</li>
-# </ol>
-# "CSPAT00600_request" 는 신규 주문 요청 함수 입니다.
+# Main 클래스에서는 주문 요청 결과를 수신 할 XQ_event_handler 클래스를 등록하고, 신규 주문을 넣는 "CSPAT00600" Res 파일을 등록합니다. CSPAT00600_request() 주문 함수는 계좌번호, 계좌비밀번호, 종목번호, 주문수량, 매수/매도 구분 그리고 호가유형코드를 SetFieldData() 함수를 통해 설정해야 합니다. 특별히 대출을 받아서 투자를 하거나 특정 조건으로 주문을 넣지 않는 경우에는 위 코드와 같이 신용거래코드는 "000", 대출일은 "", 주문조건구분은 "0" 값을 지정합니다.
 
 # In[ ]:
 
 
-# Main: 실행용 클래스
+# 2. Main: 실행용 클래스
 
-def CSPAT00600_request(self, AcntNo=None, InptPwd=None, IsuNo=None, OrdQty=0, BnsTpCode=None):
+
+class Main:
+    def __init__(self):
+        print("실행용 클래스이다")
+
+        # ... 코드 생략 ...
+        
+        #<<<<<
+        
+        MyObjects.CSPAT00600_event = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XQ_event_handler)
+        MyObjects.CSPAT00600_event.ResFileName = "C:/eBEST/xingAPI/Res/CSPAT00600.res"
+        MyObjects.CSPAT00600_request = self.CSPAT00600_request
+    
+        #<<<<<
+        
+        # ... 코드 생략 ...
+        
+    # ... 코드 생략 ...
+    
+    def CSPAT00600_request(self, AcntNo=None, InptPwd=None, IsuNo=None, OrdQty=0, BnsTpCode=None):
 
         MyObjects.CSPAT00600_event.SetFieldData("CSPAT00600InBlock1", "AcntNo", 0, AcntNo) # 계좌번호
         MyObjects.CSPAT00600_event.SetFieldData("CSPAT00600InBlock1", "InptPwd", 0, InptPwd) # 계좌번호 비밀번호
@@ -61,17 +87,14 @@ def CSPAT00600_request(self, AcntNo=None, InptPwd=None, IsuNo=None, OrdQty=0, Bn
         MyObjects.CSPAT00600_event.SetFieldData("CSPAT00600InBlock1", "LoanDt", 0, "") # 대출일
         MyObjects.CSPAT00600_event.SetFieldData("CSPAT00600InBlock1", "OrdCndiTpCode", 0, "0") # 주문조건구분 0:없음, 1:IOC, 2:FOK
 
-MyObjects.CSPAT00600_event = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XQ_event_handler)
-MyObjects.CSPAT00600_event.ResFileName = "C:/eBEST/xingAPI/Res/CSPAT00600.res"
-MyObjects.CSPAT00600_request = self.CSPAT00600_request
 
-
-# Main 클래스에서는 주문 요청 결과를 수신 할 XQ_event_handler 클래스를 등록하고, 신규 주문을 넣는 "CSPAT00600" Res 파일을 등록합니다. CSPAT00600_request() 주문 함수는 계좌번호, 계좌비밀번호, 종목번호, 주문수량, 매수/매도 구분 그리고 호가유형코드를 SetFieldData() 함수를 통해 설정해야 합니다. 특별히 대출을 받아서 투자를 하거나 특정 조건으로 주문을 넣지 않는 경우에는 위 코드와 같이 신용거래코드는 "000", 대출일은 "", 주문조건구분은 "0" 값을 지정합니다.
+# XQ_event_handler 클래스는 주문 결과 메시지를 수신 받는 곳이기 때문에 CSPAT00600_request() 함수를 사용하지 않습니다. 주문 요청은 체결 및 호가 데이터를 조합한 조건식과 함께 사용되는 경우가 많습니다. 따라서, XR_event_handler 클래스에서 주문 요청을 진행 하겠습니다.
 
 # In[ ]:
 
 
-# TR 요청 이후 수신결과 데이터를 다루는 구간
+# 3. TR 요청 이후 수신결과 데이터를 다루는 구간
+
 class XQ_event_handler:
 
     def OnReceiveData(self, code):
@@ -81,12 +104,10 @@ class XQ_event_handler:
         print("systemError: %s, messageCode: %s, message: %s" % (systemError, messageCode, message), flush=True)
 
 
-# XQ_event_handler 클래스는 주문 결과 메시지를 수신 받는 곳이기 때문에 CSPAT00600_request() 함수를 사용하지 않습니다. 주문 요청은 체결 및 호가 데이터를 조합한 조건식과 함께 사용되는 경우가 많습니다. 따라서, XR_event_handler 클래스에서 주문 요청을 진행 하겠습니다.
-
 # In[ ]:
 
 
-# XR_event_handler: 실시간 데이터 수신 클래스
+# 3. XR_event_handler: 실시간 데이터 수신 클래스
 ## 실시간 정보를 활용한 주문 요청
 
 class XR_event_handler:

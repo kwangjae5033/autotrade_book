@@ -10,6 +10,13 @@
 #   <li>데이터를 수신하는 XQ_event_handler 클래스</li>
 # </ol>
 
+# MyObjects 클래스에서 추가된 변수는 2개 입니다.
+# <ol>
+#   <li>"t0424_dict": 잔고내역 저장 딕셔너리 변수 </li>
+#   <li>"t0424_request": 잔고내역 조회 요청함수</li>
+# </ol>
+# "t0424_dict" 딕셔너리는 계좌의 잔고내역을 저장 할 변수이고, "t0424_request" 는 잔고내역 조회를 요청하는 함수 입니다.
+
 # In[ ]:
 
 
@@ -29,12 +36,7 @@ class MyObjects:
     ##################
 
 
-# MyObjects 클래스에서 추가된 변수는 2개 입니다.
-# <ol>
-#   <li>"t0424_dict": 잔고내역 저장 딕셔너리 변수 </li>
-#   <li>"t0424_request": 잔고내역 조회 요청함수</li>
-# </ol>
-# "t0424_dict" 딕셔너리는 계좌의 잔고내역을 저장 할 변수이고, "t0424_request" 는 잔고내역 조회를 요청하는 함수 입니다.
+# Main 클래스에서는 계좌 정보 조회 결과를 수신 할 XQ_event_handler 클래스를 등록하고, TR목록에서 [잔고내역2]에 해당하는 "t0424" Res 파일을 등록합니다. 이어서, 요청함수를 MyObjects 에서 새로 생성한 t0424_request 요청함수에 저장하고 함수를 호출합니다. 요청함수 정의 부분에서는 SetFieldData() 함수를 통해 입력 변수를 입력하고 while 문을 통해 조회 결과를 기다립니다. 
 
 # In[ ]:
 
@@ -79,7 +81,7 @@ class Main:
     #<<<<<
 
 
-# Main 클래스에서는 계좌 정보 조회 결과를 수신 할 XQ_event_handler 클래스를 등록하고, TR목록에서 [잔고내역2]에 해당하는 "t0424" Res 파일을 등록합니다. 이어서, 요청함수를 MyObjects 에서 새로 생성한 t0424_request() 요청함수에 저장하고 함수를 호출합니다. 요청함수 정의에서는 SetFieldData() 함수를 통해 입력 변수를 입력하고 while 문을 통해 조회 결과를 기다립니다. 
+# 데이터를 요청하는 Main 클래스에서 조회 결과 수신 클래스로 XQ_event_handler 를 등록했습니다. 따라서, 증권서버에서 요청에 응답하면 XQ_event_handler 클래스의 OnReceiveData() 함수를 통해 "t0424"의 결과를 확인 할 수 있습니다. "code" 변수를 통해 요청했던 데이터를 구분하고 GetFieldData() 함수를 통해 계좌 정보를 변수에 저장 및 조회를 할 수 있게 됩니다.
 
 # In[ ]:
 
@@ -125,8 +127,6 @@ class XQ_event_handler:
     def OnReceiveMessage(self, systemError, messageCode, message):
         print("systemError: %s, messageCode: %s, message: %s" % (systemError, messageCode, message), flush=True)
 
-
-# 데이터를 요청하는 Main 클래스에서 조회 결과 수신 클래스로 XQ_event_handler 를 등록했었습니다. 따라서, 증권서버에서 요청에 응답하면 XQ_event_handler 클래스의 OnReceiveData() 함수에서 "t0424" 에 대한 결과를 확인 할 수 있습니다. "code" 변수를 통해 요청했던 데이터를 구분하고 GetFieldData() 함수를 통해 계좌 정보를 변수에 저장 및 조회를 할 수 있게 됩니다.
 
 # 아래 전체 코드를 실행하고 계좌 정보 조회 결과를 확인 합니다.
 
