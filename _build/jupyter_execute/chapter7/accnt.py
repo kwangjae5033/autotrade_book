@@ -142,9 +142,6 @@ class MyObjects:
     t0424_request = None #< 잔고내역2 조회 요청함수
     ##################
 
-# 실시간으로 수신받는 데이터를 다루는 구간
-class XR_event_handler:
-    pass
 
 # TR 요청 이후 수신결과 데이터를 다루는 구간
 class XQ_event_handler:
@@ -152,36 +149,37 @@ class XQ_event_handler:
     def OnReceiveData(self, code):
         print("%s 수신" % code, flush=True)
 
-        if code == "t0424": #<
+        if code == "t0424": 
 
-            cts_expcode = self.GetFieldData("t0424OutBlock", "cts_expcode", 0) #<
+            cts_expcode = self.GetFieldData("t0424OutBlock", "cts_expcode", 0) 
 
-            occurs_count = self.GetBlockCount("t0424OutBlock1") #<
-            for i in range(occurs_count): #<
-                expcode = self.GetFieldData("t0424OutBlock1", "expcode", i) #<
+            occurs_count = self.GetBlockCount("t0424OutBlock1") 
+            for i in range(occurs_count): 
+                expcode = self.GetFieldData("t0424OutBlock1", "expcode", i) 
 
-                if expcode not in MyObjects.t0424_dict.keys(): #<
-                    MyObjects.t0424_dict[expcode] = {} #<
+                if expcode not in MyObjects.t0424_dict.keys(): 
+                    MyObjects.t0424_dict[expcode] = {} 
 
-                tt = MyObjects.t0424_dict[expcode] #<
-                tt["잔고수량"] = int(self.GetFieldData("t0424OutBlock1", "janqty", i)) #<
-                tt["매도가능수량"] = int(self.GetFieldData("t0424OutBlock1", "mdposqt", i)) #<
-                tt["평균단가"] = int(self.GetFieldData("t0424OutBlock1", "pamt", i)) #<
-                tt["종목명"] = self.GetFieldData("t0424OutBlock1", "hname", i) #<
-                tt["종목구분"] = self.GetFieldData("t0424OutBlock1", "jonggb", i)  #<
-                tt["수익률"] = float(self.GetFieldData("t0424OutBlock1", "sunikrt", i)) #<
+                tt = MyObjects.t0424_dict[expcode] 
+                tt["잔고수량"] = int(self.GetFieldData("t0424OutBlock1", "janqty", i)) 
+                tt["매도가능수량"] = int(self.GetFieldData("t0424OutBlock1", "mdposqt", i)) 
+                tt["평균단가"] = int(self.GetFieldData("t0424OutBlock1", "pamt", i)) 
+                tt["종목명"] = self.GetFieldData("t0424OutBlock1", "hname", i) 
+                tt["종목구분"] = self.GetFieldData("t0424OutBlock1", "jonggb", i)  
+                tt["수익률"] = float(self.GetFieldData("t0424OutBlock1", "sunikrt", i)) 
 
                 print("잔고내역 %s" % tt, flush=True)
 
             # 과거 데이터를 더 가져오고 싶을 때는 연속조회를 해야한다.
             if self.IsNext is True: #< 과거 데이터가 더 존재한다.
-                MyObjects.t0424_request(cts_expcode=cts_expcode, next=self.IsNext) #<
-            elif self.IsNext is False: #<
-                MyObjects.tr_ok = True #<
+                MyObjects.t0424_request(cts_expcode=cts_expcode, next=self.IsNext) 
+            elif self.IsNext is False: 
+                MyObjects.tr_ok = True 
 
     def OnReceiveMessage(self, systemError, messageCode, message):
         print("systemError: %s, messageCode: %s, message: %s" % (systemError, messageCode, message), flush=True)
 
+        
 # 서버접속 및 로그인 요청 이후 수신결과 데이터를 다루는 구간
 class XS_event_handler:
 
@@ -192,6 +190,7 @@ class XS_event_handler:
         else:
             MyObjects.tr_ok = False
 
+            
 # 실행용 클래스
 class Main:
     def __init__(self):
