@@ -366,10 +366,18 @@ title="Print to PDF"
                 
   <section id="id1">
 <h1>자동으로 주문넣기<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h1>
-<p>이번 절에는 매수와 매도 주문을 넣는 방법에 대해서 살펴 보겠습니다. 매수와 매도 모두 같은 요청 함수를 사용 합니다. 주문 요청 함수의 매개변수를 통해서 매수/매도를 구분하게 됩니다. 앞 절과 마찬가지로 1. 변수를 관리하는 MyObjects 클래스, 2. 데이터를 요청하는 Main 클래스 그리고 3. 데이터를 수신하는 XR_event_handler 클래스 순서로 코드를 살펴 보겠습니다.</p>
-<div class="cell docutils container">
+<p>이번 절에는 매수와 매도 주문을 넣는 방법에 대해서 살펴 보겠습니다. 매수와 매도 모두 같은 요청 함수를 사용 합니다. 주문 요청 함수의 매개변수를 통해서 매수/매도를 구분하게 됩니다. 앞 절과 마찬가지로 다음과 같은 순서로 코드를 살펴 보겠습니다.</p>
+<ol>
+  <li>변수를 관리하는 MyObjects 클래스</li>
+  <li>데이터를 요청하는 Main 클래스</li>
+  <li>데이터를 수신하는 XQ_event_handler 클래스</li>
+</ol><p>MyObjects 클래스에서 추가된 변수는 1개 입니다.</p>
+<ol>
+  <li>요청 함수 저장 변수 "CSPAT00600_request"</li>
+</ol>
+"CSPAT00600_request" 는 신규 주문 요청 함수 입니다.<div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># MyObjects: 변수관리 클래스 </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. MyObjects: 변수관리 클래스 </span>
 
 <span class="k">class</span> <span class="nc">MyObjects</span><span class="p">:</span>
     <span class="n">server</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span> <span class="c1"># hts:실투자, demo: 모의투자</span>
@@ -396,15 +404,31 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<p>MyObjects 클래스에서 추가된 변수는 1개 입니다.</p>
-<ol>
-  <li>요청 함수 저장 변수 "CSPAT00600_request"</li>
-</ol>
-"CSPAT00600_request" 는 신규 주문 요청 함수 입니다.<div class="cell docutils container">
+<p>Main 클래스에서는 주문 요청 결과를 수신 할 XQ_event_handler 클래스를 등록하고, 신규 주문을 넣는 “CSPAT00600” Res 파일을 등록합니다. CSPAT00600_request() 주문 함수는 계좌번호, 계좌비밀번호, 종목번호, 주문수량, 매수/매도 구분 그리고 호가유형코드를 SetFieldData() 함수를 통해 설정해야 합니다. 특별히 대출을 받아서 투자를 하거나 특정 조건으로 주문을 넣지 않는 경우에는 위 코드와 같이 신용거래코드는 “000”, 대출일은 “”, 주문조건구분은 “0” 값을 지정합니다.</p>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Main: 실행용 클래스</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2. Main: 실행용 클래스</span>
 
-<span class="k">def</span> <span class="nf">CSPAT00600_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">AcntNo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">InptPwd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">IsuNo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">OrdQty</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">BnsTpCode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<span class="k">class</span> <span class="nc">Main</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;실행용 클래스이다&quot;</span><span class="p">)</span>
+
+        <span class="c1"># ... 코드 생략 ...</span>
+        
+        <span class="c1">#&lt;&lt;&lt;&lt;&lt;</span>
+        
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">CSPAT00600_event</span> <span class="o">=</span> <span class="n">win32com</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">DispatchWithEvents</span><span class="p">(</span><span class="s2">&quot;XA_DataSet.XAQuery&quot;</span><span class="p">,</span> <span class="n">XQ_event_handler</span><span class="p">)</span>
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">CSPAT00600_event</span><span class="o">.</span><span class="n">ResFileName</span> <span class="o">=</span> <span class="s2">&quot;C:/eBEST/xingAPI/Res/CSPAT00600.res&quot;</span>
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">CSPAT00600_request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CSPAT00600_request</span>
+    
+        <span class="c1">#&lt;&lt;&lt;&lt;&lt;</span>
+        
+        <span class="c1"># ... 코드 생략 ...</span>
+        
+    <span class="c1"># ... 코드 생략 ...</span>
+    
+    <span class="k">def</span> <span class="nf">CSPAT00600_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">AcntNo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">InptPwd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">IsuNo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">OrdQty</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">BnsTpCode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="n">MyObjects</span><span class="o">.</span><span class="n">CSPAT00600_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;CSPAT00600InBlock1&quot;</span><span class="p">,</span> <span class="s2">&quot;AcntNo&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">AcntNo</span><span class="p">)</span> <span class="c1"># 계좌번호</span>
         <span class="n">MyObjects</span><span class="o">.</span><span class="n">CSPAT00600_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;CSPAT00600InBlock1&quot;</span><span class="p">,</span> <span class="s2">&quot;InptPwd&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">InptPwd</span><span class="p">)</span> <span class="c1"># 계좌번호 비밀번호</span>
@@ -420,18 +444,15 @@ title="Print to PDF"
         <span class="n">MyObjects</span><span class="o">.</span><span class="n">CSPAT00600_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;CSPAT00600InBlock1&quot;</span><span class="p">,</span> <span class="s2">&quot;MgntrnCode&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;000&quot;</span><span class="p">)</span> <span class="c1"># 신용거래코드, 000:보통</span>
         <span class="n">MyObjects</span><span class="o">.</span><span class="n">CSPAT00600_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;CSPAT00600InBlock1&quot;</span><span class="p">,</span> <span class="s2">&quot;LoanDt&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="c1"># 대출일</span>
         <span class="n">MyObjects</span><span class="o">.</span><span class="n">CSPAT00600_event</span><span class="o">.</span><span class="n">SetFieldData</span><span class="p">(</span><span class="s2">&quot;CSPAT00600InBlock1&quot;</span><span class="p">,</span> <span class="s2">&quot;OrdCndiTpCode&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span> <span class="c1"># 주문조건구분 0:없음, 1:IOC, 2:FOK</span>
-
-<span class="n">MyObjects</span><span class="o">.</span><span class="n">CSPAT00600_event</span> <span class="o">=</span> <span class="n">win32com</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">DispatchWithEvents</span><span class="p">(</span><span class="s2">&quot;XA_DataSet.XAQuery&quot;</span><span class="p">,</span> <span class="n">XQ_event_handler</span><span class="p">)</span>
-<span class="n">MyObjects</span><span class="o">.</span><span class="n">CSPAT00600_event</span><span class="o">.</span><span class="n">ResFileName</span> <span class="o">=</span> <span class="s2">&quot;C:/eBEST/xingAPI/Res/CSPAT00600.res&quot;</span>
-<span class="n">MyObjects</span><span class="o">.</span><span class="n">CSPAT00600_request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CSPAT00600_request</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>Main 클래스에서는 주문 요청 결과를 수신 할 XQ_event_handler 클래스를 등록하고, 신규 주문을 넣는 “CSPAT00600” Res 파일을 등록합니다. CSPAT00600_request() 주문 함수는 계좌번호, 계좌비밀번호, 종목번호, 주문수량, 매수/매도 구분 그리고 호가유형코드를 SetFieldData() 함수를 통해 설정해야 합니다. 특별히 대출을 받아서 투자를 하거나 특정 조건으로 주문을 넣지 않는 경우에는 위 코드와 같이 신용거래코드는 “000”, 대출일은 “”, 주문조건구분은 “0” 값을 지정합니다.</p>
+<p>XQ_event_handler 클래스는 주문 결과 메시지를 수신 받는 곳이기 때문에 CSPAT00600_request() 함수를 사용하지 않습니다. 주문 요청은 체결 및 호가 데이터를 조합한 조건식과 함께 사용되는 경우가 많습니다. 따라서, XR_event_handler 클래스에서 주문 요청을 진행 하겠습니다.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TR 요청 이후 수신결과 데이터를 다루는 구간</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3. TR 요청 이후 수신결과 데이터를 다루는 구간</span>
+
 <span class="k">class</span> <span class="nc">XQ_event_handler</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="nf">OnReceiveData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
@@ -443,10 +464,9 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<p>XQ_event_handler 클래스는 주문 결과 메시지를 수신 받는 곳이기 때문에 CSPAT00600_request() 함수를 사용하지 않습니다. 주문 요청은 체결 및 호가 데이터를 조합한 조건식과 함께 사용되는 경우가 많습니다. 따라서, XR_event_handler 클래스에서 주문 요청을 진행 하겠습니다.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># XR_event_handler: 실시간 데이터 수신 클래스</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3. XR_event_handler: 실시간 데이터 수신 클래스</span>
 <span class="c1">## 실시간 정보를 활용한 주문 요청</span>
 
 <span class="k">class</span> <span class="nc">XR_event_handler</span><span class="p">:</span>
