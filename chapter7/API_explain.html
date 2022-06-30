@@ -333,41 +333,9 @@ title="Print to PDF"
     </div>
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   API 작동 방식
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#xingapi">
-     xingAPI 이란?
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   앞으로 사용하게 될 변수들을 모아 놓는다.
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
-   실시간으로 수신받는 데이터를 다루는 구간
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tr">
-   TR 요청 이후 수신결과 데이터를 다루는 구간
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id5">
-   서버접속 및 로그인 요청 이후 수신결과 데이터를 다루는 구간
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id6">
-   실행용 클래스
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#xingapi">
+   xingAPI 이란?
   </a>
  </li>
 </ul>
@@ -389,41 +357,9 @@ title="Print to PDF"
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   API 작동 방식
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#xingapi">
-     xingAPI 이란?
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   앞으로 사용하게 될 변수들을 모아 놓는다.
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
-   실시간으로 수신받는 데이터를 다루는 구간
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tr">
-   TR 요청 이후 수신결과 데이터를 다루는 구간
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id5">
-   서버접속 및 로그인 요청 이후 수신결과 데이터를 다루는 구간
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id6">
-   실행용 클래스
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#xingapi">
+   xingAPI 이란?
   </a>
  </li>
 </ul>
@@ -495,56 +431,45 @@ DevCenter 에 관한 활용 방법 및 조회 테스트는 많은 자료에서 �
 <li><p>데이터를 요청하는 Main 클래스</p></li>
 <li><p>데이터를 수신하는 XQ_event_handler 클래스</p></li>
 </ol>
-<p>‘’’
-매수/매도 주문 넣기
-‘’’</p>
-<p>import win32com.client
-import pythoncom
-import time
-import threading
-import pandas as pd</p>
-</section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="id3">
-<h1>앞으로 사용하게 될 변수들을 모아 놓는다.<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h1>
-<p>class MyObjects:</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="id4">
-<h1>실시간으로 수신받는 데이터를 다루는 구간<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h1>
-<p>class XR_event_handler:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>def OnReceiveRealData(self, code):
-</pre></div>
-</div>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="tr">
-<h1>TR 요청 이후 수신결과 데이터를 다루는 구간<a class="headerlink" href="#tr" title="Permalink to this headline">#</a></h1>
-<p>class XQ_event_handler:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>def OnReceiveData(self, code):
-    print(&quot;%s 수신&quot; % code, flush=True)
+<p>앞으로 사용하게 될 변수들을 모아 놓는다.
+class MyObjects:</p>
+<p>실시간으로 수신받는 데이터를 다루는 구간</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">XR_event_handler</span><span class="p">:</span>
 
-def OnReceiveMessage(self, systemError, messageCode, message):
-    print(&quot;systemError: %s, messageCode: %s, message: %s&quot; % (systemError, messageCode, message), flush=True)
+    <span class="k">def</span> <span class="nf">OnReceiveRealData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>TR 요청 이후 수신결과 데이터를 다루는 구간</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">XQ_event_handler</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">OnReceiveData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> 수신&quot;</span> <span class="o">%</span> <span class="n">code</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">OnReceiveMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">systemError</span><span class="p">,</span> <span class="n">messageCode</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;systemError: </span><span class="si">%s</span><span class="s2">, messageCode: </span><span class="si">%s</span><span class="s2">, message: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">systemError</span><span class="p">,</span> <span class="n">messageCode</span><span class="p">,</span> <span class="n">message</span><span class="p">),</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>서버접속 및 로그인 요청 이후 수신결과 데이터를 다루는 구간</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">XS_event_handler</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">OnLogin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">szCode</span><span class="p">,</span> <span class="n">szMsg</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">szCode</span><span class="p">,</span> <span class="n">szMsg</span><span class="p">),</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">szCode</span> <span class="o">==</span> <span class="s2">&quot;0000&quot;</span><span class="p">:</span>
+            <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_ok</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_ok</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<p>실행용 클래스</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Main</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">Main</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="id5">
-<h1>서버접속 및 로그인 요청 이후 수신결과 데이터를 다루는 구간<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h1>
-<p>class XS_event_handler:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>def OnLogin(self, szCode, szMsg):
-    print(&quot;%s %s&quot; % (szCode, szMsg), flush=True)
-    if szCode == &quot;0000&quot;:
-        MyObjects.tr_ok = True
-    else:
-        MyObjects.tr_ok = False
-</pre></div>
-</div>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="id6">
-<h1>실행용 클래스<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h1>
-<p>class Main:
-def <strong>init</strong>(self):</p>
-<p>if <strong>name</strong> == “<strong>main</strong>”:
-Main()</p>
 </section>
 
     <script type="text/x-thebe-config">
