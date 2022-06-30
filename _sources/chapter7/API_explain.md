@@ -41,6 +41,7 @@ COM 버전 DLL 버전
 
 *아래 도표 다시 그리고 설명 추가*
 
+
 ```{figure} images/API_explain_2.png
 :width: 800px
 :height: 400px
