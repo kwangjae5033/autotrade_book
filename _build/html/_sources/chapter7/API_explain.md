@@ -56,27 +56,20 @@ xingAPI 프로세스 순서
  2. 데이터를 요청하는 Main 클래스
  3. 데이터를 수신하는 XQ_event_handler 클래스
 
-'''
-매수/매도 주문 넣기
-'''
 
-import win32com.client
-import pythoncom
-import time
-import threading
-import pandas as pd
-
-# 앞으로 사용하게 될 변수들을 모아 놓는다.
+앞으로 사용하게 될 변수들을 모아 놓는다.
 class MyObjects:
  
 
-# 실시간으로 수신받는 데이터를 다루는 구간
+실시간으로 수신받는 데이터를 다루는 구간
+```python
 class XR_event_handler:
 
     def OnReceiveRealData(self, code):
-
+```
        
-# TR 요청 이후 수신결과 데이터를 다루는 구간
+TR 요청 이후 수신결과 데이터를 다루는 구간
+```python
 class XQ_event_handler:
 
     def OnReceiveData(self, code):
@@ -84,9 +77,11 @@ class XQ_event_handler:
 
     def OnReceiveMessage(self, systemError, messageCode, message):
         print("systemError: %s, messageCode: %s, message: %s" % (systemError, messageCode, message), flush=True)
+```
 
-        
-# 서버접속 및 로그인 요청 이후 수신결과 데이터를 다루는 구간
+    
+서버접속 및 로그인 요청 이후 수신결과 데이터를 다루는 구간
+```python
 class XS_event_handler:
 
     def OnLogin(self, szCode, szMsg):
@@ -95,13 +90,14 @@ class XS_event_handler:
             MyObjects.tr_ok = True
         else:
             MyObjects.tr_ok = False
-
+```
             
-# 실행용 클래스
+실행용 클래스
+```python
 class Main:
     def __init__(self):
 
 
 if __name__ == "__main__":
     Main()
-    
+```
