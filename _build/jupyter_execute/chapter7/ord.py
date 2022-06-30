@@ -196,7 +196,7 @@ class XR_event_handler:
             
 
                 print(f'매수 종목: {shcode}')
-                MyObjects.CSPAT00600_request(AcntNo=MyObjects.acc_num, InptPwd=MyObjects.acc_pw, IsuNo=shcode, OrdQty=5,  BnsTpCode="2", OrdprcPtnCode="03")
+                MyObjects.CSPAT00600_request(AcntNo=MyObjects.acc_num, InptPwd=MyObjects.acc_pw, IsuNo=shcode, OrdQty=1,  BnsTpCode="2", OrdprcPtnCode="03")
 
             #<<<<<
             
@@ -270,7 +270,7 @@ class Main:
     def __init__(self):
         
         # 임의의 추천종목 리스트
-        MyObjects.code_list = ['297890','051160','241520']
+        MyObjects.code_list = ['002680','048530','013720']
 
         session = win32com.client.DispatchWithEvents("XA_Session.XASession", XS_event_handler)
         session.ConnectServer(MyObjects.server + ".ebestsec.co.kr", 20001) # 서버 연결

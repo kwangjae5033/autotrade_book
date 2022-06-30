@@ -564,7 +564,7 @@ title="Print to PDF"
             
 
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;매수 종목: </span><span class="si">{</span><span class="n">shcode</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-                <span class="n">MyObjects</span><span class="o">.</span><span class="n">CSPAT00600_request</span><span class="p">(</span><span class="n">AcntNo</span><span class="o">=</span><span class="n">MyObjects</span><span class="o">.</span><span class="n">acc_num</span><span class="p">,</span> <span class="n">InptPwd</span><span class="o">=</span><span class="n">MyObjects</span><span class="o">.</span><span class="n">acc_pw</span><span class="p">,</span> <span class="n">IsuNo</span><span class="o">=</span><span class="n">shcode</span><span class="p">,</span> <span class="n">OrdQty</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>  <span class="n">BnsTpCode</span><span class="o">=</span><span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="n">OrdprcPtnCode</span><span class="o">=</span><span class="s2">&quot;03&quot;</span><span class="p">)</span>
+                <span class="n">MyObjects</span><span class="o">.</span><span class="n">CSPAT00600_request</span><span class="p">(</span><span class="n">AcntNo</span><span class="o">=</span><span class="n">MyObjects</span><span class="o">.</span><span class="n">acc_num</span><span class="p">,</span> <span class="n">InptPwd</span><span class="o">=</span><span class="n">MyObjects</span><span class="o">.</span><span class="n">acc_pw</span><span class="p">,</span> <span class="n">IsuNo</span><span class="o">=</span><span class="n">shcode</span><span class="p">,</span> <span class="n">OrdQty</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="n">BnsTpCode</span><span class="o">=</span><span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="n">OrdprcPtnCode</span><span class="o">=</span><span class="s2">&quot;03&quot;</span><span class="p">)</span>
 
             <span class="c1">#&lt;&lt;&lt;&lt;&lt;</span>
             
@@ -638,7 +638,7 @@ title="Print to PDF"
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="c1"># 임의의 추천종목 리스트</span>
-        <span class="n">MyObjects</span><span class="o">.</span><span class="n">code_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;297890&#39;</span><span class="p">,</span><span class="s1">&#39;051160&#39;</span><span class="p">,</span><span class="s1">&#39;241520&#39;</span><span class="p">]</span>
+        <span class="n">MyObjects</span><span class="o">.</span><span class="n">code_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;002680&#39;</span><span class="p">,</span><span class="s1">&#39;048530&#39;</span><span class="p">,</span><span class="s1">&#39;013720&#39;</span><span class="p">]</span>
 
         <span class="n">session</span> <span class="o">=</span> <span class="n">win32com</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">DispatchWithEvents</span><span class="p">(</span><span class="s2">&quot;XA_Session.XASession&quot;</span><span class="p">,</span> <span class="n">XS_event_handler</span><span class="p">)</span>
         <span class="n">session</span><span class="o">.</span><span class="n">ConnectServer</span><span class="p">(</span><span class="n">MyObjects</span><span class="o">.</span><span class="n">server</span> <span class="o">+</span> <span class="s2">&quot;.ebestsec.co.kr&quot;</span><span class="p">,</span> <span class="mi">20001</span><span class="p">)</span> <span class="c1"># 서버 연결</span>
@@ -770,49 +770,45 @@ title="Print to PDF"
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0000 로그인 성공
 systemError: 0, messageCode: 00000, message: 조회가 완료되었습니다.
 t0424 수신
-잔고내역 {&#39;039860&#39;: {&#39;잔고수량&#39;: 5, &#39;매도가능수량&#39;: 5, &#39;평균단가&#39;: 4865, &#39;종목명&#39;: &#39;나노엔텍&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: 0.25}, &#39;066700&#39;: {&#39;잔고수량&#39;: 7, &#39;매도가능수량&#39;: 0, &#39;평균단가&#39;: 4244, &#39;종목명&#39;: &#39;테라젠이텍스&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: -5.99}, &#39;105550&#39;: {&#39;잔고수량&#39;: 5, &#39;매도가능수량&#39;: 0, &#39;평균단가&#39;: 2800, &#39;종목명&#39;: &#39;트루윈&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: -12.71}, &#39;347740&#39;: {&#39;잔고수량&#39;: 5, &#39;매도가능수량&#39;: 0, &#39;평균단가&#39;: 13500, &#39;종목명&#39;: &#39;피엔케이피부임상연구&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: 2.69}, &#39;353490&#39;: {&#39;잔고수량&#39;: 35, &#39;매도가능수량&#39;: 35, &#39;평균단가&#39;: 2165, &#39;종목명&#39;: &#39;미래에셋대우스팩 5호&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: -0.95}}
-체결정보 종목 등록 297890
-체결정보 종목 등록 051160
-체결정보 종목 등록 241520
-호가잔량 종목 등록 297890
-호가잔량 종목 등록 051160
-호가잔량 종목 등록 241520
+잔고내역 {&#39;039860&#39;: {&#39;잔고수량&#39;: 5, &#39;매도가능수량&#39;: 5, &#39;평균단가&#39;: 4865, &#39;종목명&#39;: &#39;나노엔텍&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: -0.25}, &#39;353490&#39;: {&#39;잔고수량&#39;: 35, &#39;매도가능수량&#39;: 35, &#39;평균단가&#39;: 2165, &#39;종목명&#39;: &#39;미래에셋대우스팩 5호&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: -0.95}}
+체결정보 종목 등록 002680
+체결정보 종목 등록 048530
+체결정보 종목 등록 013720
+호가잔량 종목 등록 002680
+호가잔량 종목 등록 048530
+호가잔량 종목 등록 013720
 systemError: 0, messageCode: 00000, message: 조회가 완료되었습니다.
 t0424 수신
-잔고내역 {&#39;039860&#39;: {&#39;잔고수량&#39;: 5, &#39;매도가능수량&#39;: 5, &#39;평균단가&#39;: 4865, &#39;종목명&#39;: &#39;나노엔텍&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: 0.25}, &#39;066700&#39;: {&#39;잔고수량&#39;: 7, &#39;매도가능수량&#39;: 0, &#39;평균단가&#39;: 4244, &#39;종목명&#39;: &#39;테라젠이텍스&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: -5.99}, &#39;105550&#39;: {&#39;잔고수량&#39;: 5, &#39;매도가능수량&#39;: 0, &#39;평균단가&#39;: 2800, &#39;종목명&#39;: &#39;트루윈&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: -12.71}, &#39;347740&#39;: {&#39;잔고수량&#39;: 5, &#39;매도가능수량&#39;: 0, &#39;평균단가&#39;: 13500, &#39;종목명&#39;: &#39;피엔케이피부임상연구&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: 2.69}, &#39;353490&#39;: {&#39;잔고수량&#39;: 35, &#39;매도가능수량&#39;: 35, &#39;평균단가&#39;: 2165, &#39;종목명&#39;: &#39;미래에셋대우스팩 5호&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: -0.95}}
+잔고내역 {&#39;039860&#39;: {&#39;잔고수량&#39;: 5, &#39;매도가능수량&#39;: 5, &#39;평균단가&#39;: 4865, &#39;종목명&#39;: &#39;나노엔텍&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: -0.25}, &#39;353490&#39;: {&#39;잔고수량&#39;: 35, &#39;매도가능수량&#39;: 35, &#39;평균단가&#39;: 2165, &#39;종목명&#39;: &#39;미래에셋대우스팩 5호&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: -0.95}}
+매수 종목: 048530
 
-XXXXXXXXXXXXXXX 
-CSPAT00600 주문에러
+=============
+CSPAT00600 주문 실행
 계좌번호: 55500489801
-종목코드: A066700
-주문수량: 0
-매매구분: 1
-주문에러: -38
+종목코드: A048530
+주문수량: 1
+매매구분: 2
+주문에러: 7
 
 
+systemError: 0, messageCode: 00040, message: 모의투자 매수주문이 완료 되었습니다.                                            
+CSPAT00600 수신
+systemError: 0, messageCode: 00000, message: 조회가 완료되었습니다.
+t0424 수신
+잔고내역 {&#39;039860&#39;: {&#39;잔고수량&#39;: 5, &#39;매도가능수량&#39;: 5, &#39;평균단가&#39;: 4865, &#39;종목명&#39;: &#39;나노엔텍&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: -0.25}, &#39;353490&#39;: {&#39;잔고수량&#39;: 35, &#39;매도가능수량&#39;: 35, &#39;평균단가&#39;: 2165, &#39;종목명&#39;: &#39;미래에셋대우스팩 5호&#39;, &#39;종목구분&#39;: &#39;2&#39;, &#39;수익률&#39;: -0.95}}
+매수 종목: 048530
 
-XXXXXXXXXXXXXXX 
-CSPAT00600 주문에러
+=============
+CSPAT00600 주문 실행
 계좌번호: 55500489801
-종목코드: A105550
-주문수량: 0
-매매구분: 1
-주문에러: -38
+종목코드: A048530
+주문수량: 1
+매매구분: 2
+주문에러: 9
 
 
-
-XXXXXXXXXXXXXXX 
-CSPAT00600 주문에러
-계좌번호: 55500489801
-종목코드: A347740
-주문수량: 0
-매매구분: 1
-주문에러: -38
-
-
-systemError: 1, messageCode:   -38, message: 주문수량 입력값을 확인하시기 바랍니다.
-systemError: 1, messageCode:   -38, message: 주문수량 입력값을 확인하시기 바랍니다.
-systemError: 1, messageCode:   -38, message: 주문수량 입력값을 확인하시기 바랍니다.
+systemError: 0, messageCode: 00040, message: 모의투자 매수주문이 완료 되었습니다.                                            
+CSPAT00600 수신
 </pre></div>
 </div>
 </div>
