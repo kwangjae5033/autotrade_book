@@ -49,3 +49,59 @@ COM 버전 DLL 버전
 
 xingAPI 프로세스 순서
 ```
+
+*API를 활용한 코드 설명 추가*
+
+ 1. 변수를 관리하는 MyObjects 클래스
+ 2. 데이터를 요청하는 Main 클래스
+ 3. 데이터를 수신하는 XQ_event_handler 클래스
+
+'''
+매수/매도 주문 넣기
+'''
+
+import win32com.client
+import pythoncom
+import time
+import threading
+import pandas as pd
+
+# 앞으로 사용하게 될 변수들을 모아 놓는다.
+class MyObjects:
+ 
+
+# 실시간으로 수신받는 데이터를 다루는 구간
+class XR_event_handler:
+
+    def OnReceiveRealData(self, code):
+
+       
+# TR 요청 이후 수신결과 데이터를 다루는 구간
+class XQ_event_handler:
+
+    def OnReceiveData(self, code):
+        print("%s 수신" % code, flush=True)
+
+    def OnReceiveMessage(self, systemError, messageCode, message):
+        print("systemError: %s, messageCode: %s, message: %s" % (systemError, messageCode, message), flush=True)
+
+        
+# 서버접속 및 로그인 요청 이후 수신결과 데이터를 다루는 구간
+class XS_event_handler:
+
+    def OnLogin(self, szCode, szMsg):
+        print("%s %s" % (szCode, szMsg), flush=True)
+        if szCode == "0000":
+            MyObjects.tr_ok = True
+        else:
+            MyObjects.tr_ok = False
+
+            
+# 실행용 클래스
+class Main:
+    def __init__(self):
+
+
+if __name__ == "__main__":
+    Main()
+    
