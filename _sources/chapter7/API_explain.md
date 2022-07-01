@@ -58,8 +58,9 @@ xingAPI 프로세스 순서
 
 
 앞으로 사용하게 될 변수들을 모아 놓는다.
+```python
 class MyObjects:
- 
+```
 
 실시간으로 수신받는 데이터를 다루는 구간
 ```python
@@ -79,7 +80,6 @@ class XQ_event_handler:
         print("systemError: %s, messageCode: %s, message: %s" % (systemError, messageCode, message), flush=True)
 ```
 
-    
 서버접속 및 로그인 요청 이후 수신결과 데이터를 다루는 구간
 ```python
 class XS_event_handler:
