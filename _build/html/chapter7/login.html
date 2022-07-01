@@ -371,7 +371,12 @@ title="Print to PDF"
   <li>변수를 관리하는 MyObjects 클래스</li>
   <li>데이터를 요청하는 Main 클래스</li>
   <li>로그인 결과를 수신하는 XS_event_handler 클래스</li>
-</ol><div class="cell docutils container">
+</ol><p>MyObjects 클래스에서 추가된 변수는 2개 입니다.</p>
+<ol>
+  <li>"server": 실투자 혹은 모의투자 서버 선택 변수 </li>
+  <li>"login_ok": 로그인 상태를 나타내는 불 타입 변수</li>
+</ol>
+"server" 는 실투자 혹은 모의투자 서버 중 선택된 서버를 저장 할 변수이고, "login_ok" 는 로그인 상태를 나타내는 불 타입 변수 입니다.<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. MyObjects: 변수관리 클래스 </span>
 
@@ -382,12 +387,8 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<p>MyObjects 클래스에서 추가된 변수는 2개 입니다.</p>
-<ol>
-  <li>"server": 실투자 혹은 모의투자 서버 선택 변수 </li>
-  <li>"login_ok": 로그인 상태를 나타내는 불 타입 변수</li>
-</ol>
-"server" 는 실투자 혹은 모의투자 서버 중 선택된 서버를 저장 할 변수이고, "login_ok" 는 로그인 상태를 나타내는 불 타입 변수 입니다.<div class="cell docutils container">
+<p>Main 클래스에서는 로그인 결과를 수신 할 XS_event_handler 클래스를 등록하고, 서버 연결을 시도하는 ConnectServer() 함수를 호출 합니다. ConnectServer() 함수는 MyObjects 클래스에서 선언한 “server” 변수로 서버 타입을 정합니다. 서버 연결 후, Login() 함수를 호출하여 로그인을 시도합니다. 로그인이 완료될 때까지 while 루프로 대기 하는데, MyObjects 클래스에서 선언한 “login_ok” 변수 값을 기준으로 삼습니다.</p>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2. Main: 데이터 요청 클래스</span>
 
@@ -405,8 +406,7 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<p>Main 클래스에서는 로그인 결과를 수신 할 XS_event_handler 클래스를 등록하고, 서버 연결을 시도하는 ConnectServer() 함수를 호출 합니다. ConnectServer() 함수는 MyObjects 클래스에서 선언한 “server” 변수로 서버 타입을 정합니다. 서버 연결 후, Login() 함수를 호출하여 로그인을 시도합니다. 로그인이 완료될 때까지 while 루프로 대기 하는데, MyObjects 클래스에서 선언한 “login_ok” 변수 값을 기준으로 삼습니다.</p>
-<p>모의투자 서버에서 API 사용법을 익히기 위해 MyObjects.server 변수의 값은 ‘demo’ 로 저장했으나, 실투자 서버를 사용을 원할 경우엔 ‘hts’ 로 변수 값을 저장하면 됩니다. 한편, 로그인 결과를 알기위해 MyObjects.login_ok 변수의 기본 값은 ‘False’로 저장하였고, 로그인 결과 메시지를 XS_event_handler 로 받으면 ‘True’ 로 변경하여 위 코드의 while 문을 빠져 나옵니다.</p>
+<p>모의투자 서버에서 API 사용법을 익히기 위해 MyObjects.server 변수의 값은 ‘demo’ 로 저장했으나, 실투자 서버 사용을 원할 경우엔 ‘hts’ 로 변수 값을 저장하면 됩니다. 한편, 로그인 결과를 알기위해 MyObjects.login_ok 변수의 기본 값은 ‘False’로 저장하였고, 로그인 결과 메시지를 XS_event_handler 로 받으면 ‘True’ 로 변경하여 위 코드의 while 문을 빠져 나옵니다.</p>
 <p>다음은 로그인 결과 메시지를 받기 위한 XS_event_handler 클래스 입니다. 로그인에 성공하면 증권서버는 szCode 변수에 “0000” 값을 반환합니다. 로그인에 성공하였으므로 MyObjects.login_ok 의 값을 ‘True’ 로 변환 합니다. 반면, 로그인이 실패 시, ‘False’ 값을 유지 합니다.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
