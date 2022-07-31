@@ -52,8 +52,6 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="자동 로그인" href="login.html" />
-    <link rel="prev" title="개발환경" href="env_setting.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -113,47 +111,17 @@ const thebe_selector_output = ".output, .cell_output"
   chapter 7
  </span>
 </p>
-<ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active has-children">
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="7.1.0_Algo_trading.html">
    자동매매를 해보자
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
-   <li class="toctree-l2">
-    <a class="reference internal" href="env_setting.html">
-     개발환경
-    </a>
-   </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     API 작동 방식
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="login.html">
-     자동 로그인
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="accnt.html">
-     계좌 정보 조회
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="xr.html">
-     실시간 데이터 받아오기
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="ord.html">
-     자동으로 주문넣기
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
 </ul>
@@ -246,7 +214,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fchapter7/API_explain.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fchapter7/7.3.0_API_explain.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -274,7 +242,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/chapter7/API_explain.md"
+        <a href="../_sources/chapter7/7.3.0_API_explain.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -411,66 +379,22 @@ DevCenter 에 관한 활용 방법 및 조회 테스트는 많은 자료에서 �
 </tbody>
 </table>
 <p>xingAPI 는 COM 버전이지만 DLL 파일을 사용합니다. DLL 은 Dynamic Link Library의 약자이며 xingAPI 에서 제공하는
-통신 모듈 프로그램 코드가 들어있습니다. 아래 Fig 1 처럼 증권사 서버와 사용자 프로그램 코드의 통신을 연결해 줍니다.</p>
+통신 모듈 프로그램 코드가 들어있습니다. 아래 Fig 30 처럼 증권사 서버와 사용자 프로그램 코드의 통신을 연결해 줍니다.
+위에서 언급한 세 가지 클래스들은 증권사 서버와 데이터를 송/수신 하는 프레임 입니다.</p>
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/API_explain_1.png"><img alt="../_images/API_explain_1.png" src="../_images/API_explain_1.png" style="width: 800px; height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 30 </span><span class="caption-text">COM 버전 DLL 버전</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+<p><span class="caption-text">COM 버전 DLL 버전</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p><em>아래 도표 다시 그리고 설명 추가</em></p>
+<p>세 가지 클래스를 활용하여 아래 Fig 31 처럼 코드 프로세스를 정의 할 수 있습니다.
+프로세스에 대한 이해는 뒷 절에서 이어지는 코드 작업을 통해 자세히 다뤄보겠습니다.</p>
 <figure class="align-default" id="id2">
 <a class="reference internal image-reference" href="../_images/API_explain_2.png"><img alt="../_images/API_explain_2.png" src="../_images/API_explain_2.png" style="width: 800px; height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 31 </span><span class="caption-text">xingAPI 프로세스 순서</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
+<p><span class="caption-text">xingAPI 프로세스 정의</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p><em>API를 활용한 코드 설명 추가</em></p>
-<ol class="simple">
-<li><p>변수를 관리하는 MyObjects 클래스</p></li>
-<li><p>데이터를 요청하는 Main 클래스</p></li>
-<li><p>데이터를 수신하는 XQ_event_handler 클래스</p></li>
-</ol>
-<p>앞으로 사용하게 될 변수들을 모아 놓는다.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyObjects</span><span class="p">:</span>
-</pre></div>
-</div>
-<p>실시간으로 수신받는 데이터를 다루는 구간</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">XR_event_handler</span><span class="p">:</span>
-
-    <span class="k">def</span> <span class="nf">OnReceiveRealData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
-</pre></div>
-</div>
-<p>TR 요청 이후 수신결과 데이터를 다루는 구간</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">XQ_event_handler</span><span class="p">:</span>
-
-    <span class="k">def</span> <span class="nf">OnReceiveData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> 수신&quot;</span> <span class="o">%</span> <span class="n">code</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">OnReceiveMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">systemError</span><span class="p">,</span> <span class="n">messageCode</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;systemError: </span><span class="si">%s</span><span class="s2">, messageCode: </span><span class="si">%s</span><span class="s2">, message: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">systemError</span><span class="p">,</span> <span class="n">messageCode</span><span class="p">,</span> <span class="n">message</span><span class="p">),</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>서버접속 및 로그인 요청 이후 수신결과 데이터를 다루는 구간</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">XS_event_handler</span><span class="p">:</span>
-
-    <span class="k">def</span> <span class="nf">OnLogin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">szCode</span><span class="p">,</span> <span class="n">szMsg</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">szCode</span><span class="p">,</span> <span class="n">szMsg</span><span class="p">),</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">szCode</span> <span class="o">==</span> <span class="s2">&quot;0000&quot;</span><span class="p">:</span>
-            <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_ok</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">MyObjects</span><span class="o">.</span><span class="n">tr_ok</span> <span class="o">=</span> <span class="kc">False</span>
-</pre></div>
-</div>
-<p>실행용 클래스</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Main</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">Main</span><span class="p">()</span>
-</pre></div>
-</div>
 </section>
 </section>
 
@@ -501,20 +425,6 @@ DevCenter 에 관한 활용 방법 및 조회 테스트는 많은 자료에서 �
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="env_setting.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">개발환경</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="login.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">자동 로그인</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
 </div>
             </footer>
         </div>
